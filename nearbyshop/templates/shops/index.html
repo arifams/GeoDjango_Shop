@@ -25,31 +25,33 @@
           {% endfor %}
       </ul>
       {% endif %}
-<!--    map id-->
+    <!-- map id-->
     <div id="mapid"></div>
-<!--    map js-->
+    <!-- map js-->
     <script>
         var map = L.map('mapid').setView([39.2900440, -76.612330], 17);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
 
-L.marker([39.2900440, -76.612330]).addTo(map)
-    .bindPopup('This Baltimore.<br> Shops with Miss Simone.')
-    .openPopup();
+      L.marker([39.2900440, -76.612330]).addTo(map)
+          .bindPopup('This Baltimore.<br> Shops with Miss Simone.')
+          .openPopup();
 
-// for each shop do some red dot circle
-// shops.location.y is latitude and shops.location.x is longitude from postgis subclass
-// to understand location of the shops and display it in map
+      // for each shop do some red dot circle
+      // shops.location.y is latitude and shops.location.x is longitude from postgis subclass
+      // to understand location of the shops and display it in map
+        {% if shops %}
         {% for shop in shops %}
-        var circle = L.circle([ {{ shops.location.y }}, {{ shops.location.x }}], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 50
-}).addTo(map);
-      {% endfor %}
+          var circle = L.circle([{{ shop.location.y }},{{ shop.location.x }}], { 
+          color: 'red', 
+          fillColor: '#f03',
+          fillOpacity: 0.1, 
+          radius: 10
+        }).addTo(map);
+        {% endfor %}
+        {% endif %}
     </script>
 
   </body>
